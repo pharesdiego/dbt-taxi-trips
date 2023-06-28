@@ -1,0 +1,10 @@
+dbt_core_demo:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      keyfile: /home/phares/raw-trips-956d5f3646d5.json
+      project: raw-trips
+      dataset: taxi_data
+      location: us-east4
