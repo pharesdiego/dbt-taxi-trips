@@ -6,5 +6,5 @@ dbt_core_demo:
       method: service-account
       keyfile: /home/phares/raw-trips-956d5f3646d5.json
       project: raw-trips
-      dataset: taxi_data
+      dataset: taxi_data_staging
       location: us-east4
