@@ -1,11 +1,9 @@
+with trips as (
+  select *, row_number() over(partition by vendorid, tpep_pickup_datetime) as rn
+  from {{ source('staging', 'trips') }}
+  where vendorid is not null
+)
 select
-  {{get_vendor('vendorid')}} as vendor,
-  cast(lpep_pickup_datetime as timestamp) as pickup_time,
-  cast(lpep_dropoff_datetime as timestamp) as dropoff_time,
-  cast(passenger_count as integer) as number_of_passengers,
-  trip_distance,
-  {{get_rate_type('ratecodeid')}} as rate_type,
-  {{get_payment_type('payment_type')}} as payment_type,
-  tip_amount,
-  total_amount
-from {{ source('staging', 'green_trips') }}
+  {{get_trip_fields('tpep')}},
+  'Street hail' as trip_type
+from trips
