@@ -1,4 +1,12 @@
-{{ config(materialized='table') }} 
+{{
+  config(
+    materialized='table',
+    partition_by={
+      'field': 'pickup_location_borough',
+      'data_type': 'string',
+    }
+  )
+}} 
 
 with green_trips as (
   select *, 'Green' as taxi_type from {{ ref('stg_green_taxi_trips') }}
@@ -13,6 +21,11 @@ all_trips as (
 )
 
 select
+  {{
+    dbt_utils.generate_surrogate_key(
+      ['pickup_time', 'dropoff_time', 'pickup_location_id', 'dropoff_location_id', 'number_of_passengers', 'total_amount']
+    )
+  }} as tripid,
   vendor,
   pickup_time,
   dropoff_time,
