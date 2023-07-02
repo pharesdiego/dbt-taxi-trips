@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: staging
+    database: raw-trips
+    schema: taxi_data
+    tables:
+      - name: trips
+      - name: green_trips
