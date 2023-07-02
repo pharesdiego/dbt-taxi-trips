@@ -1,0 +1,9 @@
+models:
+  - name: fact_trips
+    columns:
+      - name: tripid
+        tests:
+          - unique:
+              severity: warn
+          - not_null
+  - name: dim_zones

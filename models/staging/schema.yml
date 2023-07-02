@@ -1,12 +1,28 @@
 version: 2
 
-sources:
-  - name: staging
-    database: raw-trips
-    schema: taxi_data
-    tables:
-      - name: trips
-      - name: green_trips
-
-# models:
-  
+models:
+  - name: stg_green_taxi_trips
+    columns: &trip_columns
+      - name: vendor
+        tests:
+          - not_null
+      - name: pickup_time
+      - name: dropoff_time
+      - name: pickup_location_id
+        tests:
+          - relationships:
+              to: ref('taxi_zone_lookup')
+              field: locationid
+      - name: dropoff_location_id
+        tests:
+          - relationships:
+              to: ref('taxi_zone_lookup')
+              field: locationid
+      - name: number_of_passengers
+      - name: trip_distance
+      - name: rate_type
+      - name: payment_type
+      - name: tip_amount
+      - name: total_amount
+  - name: stg_yellow_taxi_trips
+    columns: *trip_columns
